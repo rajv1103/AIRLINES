@@ -1,15 +1,15 @@
-const { Airplanes } = require("../models/airplane");
+const { Airplanes } = require("../models/index");
 
-class airplaneRespository {
+class airplaneRepository {
   async getAirplane(id) {
     try {
       const airplane = await Airplanes.findByPk(id);
       return airplane;
-    } catch (e) {
+    } catch (error) {
       console.log("Something went wrong in the repository layer");
-      throw { error };
+      throw error;
     }
   }
 }
 
-module.exports=airplaneRespository;
+module.exports = airplaneRepository;

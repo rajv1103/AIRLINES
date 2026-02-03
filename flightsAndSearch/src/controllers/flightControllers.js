@@ -1,7 +1,7 @@
 const { FlightRepository } = require("../repository");
-const { flightServices } = require("../services/index");
+const { flightServices: FlightServiceClass } = require("../services/index");
 const { SuccessCodes } = require("../utils/errorCodes");
-const flightServices = new flightServices();
+const flightServices = new FlightServiceClass();
 
 const create = async (req, res) => {
   try {
@@ -35,8 +35,9 @@ const create = async (req, res) => {
 const getAll = async (req, res) => {
   try {
     console.log(req.query);
-    const flights = await FlightRepository.getAllFlightsData(req.query);
-    return res.status(SuccessCodes.OK).response({
+    const flightRepo = new FlightRepository();
+    const flights = await flightRepo.getAllFlightsData(req.query);
+    return res.status(SuccessCodes.OK).json({
       data: flights,
       success: true,
       message: "Succesfully fetched the All data",

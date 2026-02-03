@@ -12,7 +12,7 @@ module.exports = {
       modelNumber: {
         type: Sequelize.STRING
       },
-      capcity: {
+      capacity: {
         type: Sequelize.INTEGER,
         allowNull:false,
         defaultValue:250

@@ -1,4 +1,5 @@
 const { Flights } = require("../models/index");
+const { Op } = require("sequelize");
 
 class flightRepository {
   #createFilter(data) {
@@ -20,7 +21,9 @@ class flightRepository {
       // Object.assign(filter, {price: {[Op.lte]: data.maxPrice}});
       priceFilter.push({ price: { [Op.lte]: data.maxPrice } });
     }
-    Object.assign(filter, { [Op.and]: priceFilter });
+    if (priceFilter.length > 0) {
+      filter[Op.and] = priceFilter;
+    }
     // Object.assign(filter, {[Op.and]: [{ price: {[Op.lte]: 7000} }, { price: {[Op.gte]: 4000} }]})
     console.log(filter);
     return filter;
@@ -45,7 +48,7 @@ class flightRepository {
   }
   async getAllFlightsData(data) {
     try {
-      const filterObject = this.#createFilter(filter);
+      const filterObject = this.#createFilter(data);
       const flights = await Flights.findAll({
         where: filterObject,
       });
